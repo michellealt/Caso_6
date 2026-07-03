@@ -4,14 +4,14 @@
 
 void registrar_turno(RegistroProduccion registros[], int *total) {
     if (*total >= MAX_REGISTROS) {
-        printf("Error: Capacidad maxima de memoria alcanzada.\n");
+        printf("Error: Capacidad máxima de memoria alcanzada.\n");
         return;
     }
 
     RegistroProduccion nuevo;
     printf("\n--- REGISTRAR DATOS DE TURNO ---\n");
     
-    printf("Codigo de registro (1-15 caracteres): ");
+    printf("Código de registro (1-15 caracteres): ");
     fgets(nuevo.codigo_registro, MAX_CODIGO, stdin);
     limpiar_entrada(nuevo.codigo_registro);
 
@@ -19,12 +19,23 @@ void registrar_turno(RegistroProduccion registros[], int *total) {
     fgets(nuevo.fecha, MAX_FECHA, stdin);
     limpiar_entrada(nuevo.fecha);
 
-    printf("Centro de costo: ");
+    printf("Centro de costo (ej. M-101): ");
     fgets(nuevo.centro_costo, MAX_CENTRO, stdin);
     limpiar_entrada(nuevo.centro_costo);
 
     printf("Turno (1, 2 o 3): ");
     scanf("%d", &nuevo.turno);
+    while(getchar() != '\n'); // Limpia el buffer después del número
+
+    if (nuevo.turno < 1 || nuevo.turno > 3) {
+        printf("Error: Turno inválido.\n");
+        return;
+    }
+
+    printf("Materia prima (kg): ");
+    scanf("%f", &nuevo.materia_prima_kg);
+    printf("Desperdicio (kg): ");
+    scanf("%f", &nuevo.desperdicio_kg);
     while(getchar() != '\n');
 
     if (nuevo.turno < 1 || nuevo.turno > 3) {
