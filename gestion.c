@@ -83,3 +83,35 @@ void listar_registros(const RegistroProduccion registros[], int total) {
 void limpiar_entrada(char *cadena) {
     cadena[strcspn(cadena, "\n")] = 0;
 }
+int buscar_por_codigo(const RegistroProduccion registros[], int total, const char *codigo) {
+    for (int i = 0; i < total; i++) {
+        if (strcmp(registros[i].codigo_registro, codigo) == 0) return i;
+    }
+    return -1;
+}
+
+int validar_duplicado_triada(const RegistroProduccion registros[], int total, const char *fecha, const char *centro, int turno) {
+    for (int i = 0; i < total; i++) {
+        if (strcmp(registros[i].fecha, fecha) == 0 &&
+            strcmp(registros[i].centro_costo, centro) == 0 &&
+            registros[i].turno == turno) {
+            return i; 
+        }
+    }
+    return -1;
+}
+
+void buscar_registro(const RegistroProduccion registros[], int total) {
+    char codigo[MAX_CODIGO];
+    printf("\nIngrese el código exacto a buscar: ");
+    fgets(codigo, MAX_CODIGO, stdin);
+    codigo[strcspn(codigo, "\n")] = 0;
+
+    int idx = buscar_por_codigo(registros, total, codigo);
+    if (idx == -1) {
+        printf("Registro no encontrado.\n");
+    } else {
+        printf("\nRegistro encontrado:\n");
+        listar_registros(&registros[idx], 1);
+    }
+}
