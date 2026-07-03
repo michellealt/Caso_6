@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <string.h>
+#include "gestion.h"
+
+void registrar_turno(RegistroProduccion registros[], int *total) {
+    if (*total >= MAX_REGISTROS) {
+        printf("Error: Capacidad máxima de memoria alcanzada.\n");
+        return;
+    }
+
+    RegistroProduccion nuevo;
+    printf("\n--- REGISTRAR DATOS DE TURNO ---\n");
+    
+    printf("Código de registro (1-15 caracteres): ");
+    fgets(nuevo.codigo_registro, MAX_CODIGO, stdin);
+    limpiar_entrada(nuevo.codigo_registro);
+
+    printf("Fecha (DD/MM/AAAA): ");
+    fgets(nuevo.fecha, MAX_FECHA, stdin);
+    limpiar_entrada(nuevo.fecha);
+
+    printf("Centro de costo: ");
+    fgets(nuevo.centro_costo, MAX_CENTRO, stdin);
+    limpiar_entrada(nuevo.centro_costo);
+
+    printf("Turno (1, 2 o 3): ");
+    scanf("%d", &nuevo.turno);
+    while(getchar() != '\n');
+
+    if (nuevo.turno < 1 || nuevo.turno > 3) {
+        printf("Error: Turno inválido.\n");
+        return;
+    }
+
+    printf("Materia prima (kg): ");
+    scanf("%f", &nuevo.materia_prima_kg);
+    printf("Desperdicio (kg): ");
+    scanf("%f", &nuevo.desperdicio_kg);
+    
+    // Validación de rangos obligatorios
+    if (nuevo.materia_prima_kg < 0 || nuevo.desperdicio_kg < 0 || nuevo.desperdicio_kg > nuevo.materia_prima_kg) {
+        printf("Error: Valores de materia prima o desperdicio fuera de rango.\n");
+        while(getchar() != '\n');
+        return;
+    }
+
+    printf("Tiempo (minutos): ");
+    scanf("%d", &nuevo.tiempo_min);
+    printf("Unidades producidas: ");
+    scanf("%d", &nuevo.unidades_producidas);
+    while(getchar() != '\n');
+
+    if (nuevo.tiempo_min < 0 || nuevo.unidades_producidas < 0) {
+        printf("Error: Tiempo o unidades no pueden ser negativos.\n");
+        return;
+    }
+
+    registros[*total] = nuevo;
+    (*total)++;
+    printf("¡Registro agregado exitosamente en memoria!\n");
+}
