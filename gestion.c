@@ -59,3 +59,23 @@ void registrar_turno(RegistroProduccion registros[], int *total) {
     (*total)++;
     printf("¡Registro agregado exitosamente en memoria!\n");
 }
+
+void listar_registros(const RegistroProduccion registros[], int total) {
+    if (total == 0) {
+        printf("\nNo hay registros que mostrar.\n");
+        return;
+    }
+
+    printf("\n-\n");
+    printf("%-7s | %-10s | %-10s | %-5s | %-10s | %-10s | %-8s\n", 
+           "COD", "FECHA", "CENTRO", "TURNO", "MAT.PRIM", "DESPERD.", "REND(%)");
+    printf("\n");
+    
+    for (int i = 0; i < total; i++) {
+        float rend = calcular_rendimiento(registros[i].materia_prima_kg, registros[i].desperdicio_kg);
+        printf("%-7s | %-10s | %-10s | %-5d | %-10.1f | %-10.1f | %-7.1f%%\n",
+               registros[i].codigo_registro, registros[i].fecha, registros[i].centro_costo,
+               registros[i].turno, registros[i].materia_prima_kg, registros[i].desperdicio_kg, rend);
+    }
+    printf("\n");
+}
