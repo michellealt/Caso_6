@@ -11,20 +11,20 @@ void registrar_turno(RegistroProduccion registros[], int *total) {
     RegistroProduccion nuevo;
     printf("\n--- REGISTRAR DATOS DE TURNO ---\n");
     
-    // 1. CÓDIGO
+    // 1. CÓDIGO (Lee hasta encontrar un espacio o salto de línea)
     printf("Código de registro (1-15 caracteres): ");
-    fgets(nuevo.codigo_registro, MAX_CODIGO, stdin);
-    limpiar_entrada(nuevo.codigo_registro);
+    scanf("%15s", nuevo.codigo_registro);
+    while(getchar() != '\n'); // Limpieza forzada de buffer
 
     // 2. FECHA
     printf("Fecha (DD/MM/AAAA): ");
-    fgets(nuevo.fecha, MAX_FECHA, stdin);
-    limpiar_entrada(nuevo.fecha);
+    scanf("%10s", nuevo.fecha);
+    while(getchar() != '\n'); // Limpieza forzada de buffer
 
     // 3. CENTRO DE COSTO
     printf("Centro de costo (ej. M-101): ");
-    fgets(nuevo.centro_costo, MAX_CENTRO, stdin);
-    limpiar_entrada(nuevo.centro_costo);
+    scanf("%14s", nuevo.centro_costo);
+    while(getchar() != '\n'); // Limpieza forzada de buffer
 
     // 4. TURNO
     printf("Turno (1, 2 o 3): ");
@@ -109,9 +109,9 @@ int validar_duplicado_triada(const RegistroProduccion registros[], int total, co
 
 void buscar_registro(const RegistroProduccion registros[], int total) {
     char codigo[MAX_CODIGO];
-    printf("\nIngrese el código exacto a buscar: ");
-    fgets(codigo, MAX_CODIGO, stdin);
-    codigo[strcspn(codigo, "\n")] = 0;
+    printf("\nIngrese el codigo exacto a buscar: ");
+    scanf("%15s", codigo);
+    while(getchar() != '\n');
 
     int idx = buscar_por_codigo(registros, total, codigo);
     if (idx == -1) {
@@ -124,9 +124,9 @@ void buscar_registro(const RegistroProduccion registros[], int total) {
 
 void actualizar_registro(RegistroProduccion registros[], int total) {
     char codigo[MAX_CODIGO];
-    printf("\nIngrese el código del registro a actualizar: ");
-    fgets(codigo, MAX_CODIGO, stdin);
-    codigo[strcspn(codigo, "\n")] = 0;
+    printf("\nIngrese el codigo del registro a actualizar: ");
+    scanf("%15s", codigo);
+    while(getchar() != '\n');
 
     int idx = buscar_por_codigo(registros, total, codigo);
     if (idx == -1) {
@@ -134,7 +134,7 @@ void actualizar_registro(RegistroProduccion registros[], int total) {
         return;
     }
 
-    printf("Modificando registro %s (El código no puede cambiarse).\n", codigo);
+    printf("Modificando registro %s (El codigo no puede cambiarse).\n", codigo);
     printf("Nueva Materia Prima (kg): ");
     scanf("%f", &registros[idx].materia_prima_kg);
     printf("Nuevo Desperdicio (kg): ");
@@ -147,8 +147,8 @@ void actualizar_registro(RegistroProduccion registros[], int total) {
 void eliminar_registro(RegistroProduccion registros[], int *total) {
     char codigo[MAX_CODIGO];
     printf("\nIngrese el código del registro a eliminar: ");
-    fgets(codigo, MAX_CODIGO, stdin);
-    codigo[strcspn(codigo, "\n")] = 0;
+    scanf("%15s", codigo);
+    while(getchar() != '\n');
 
     int idx = buscar_por_codigo(registros, *total, codigo);
     if (idx == -1) {
@@ -157,7 +157,7 @@ void eliminar_registro(RegistroProduccion registros[], int *total) {
     }
 
     char conf;
-    printf("¿Está seguro de eliminar el registro %s? (s/n): ", codigo);
+    printf("¿Esta seguro de eliminar el registro %s? (s/n): ", codigo);
     scanf(" %c", &conf);
     while(getchar() != '\n');
 
@@ -173,8 +173,8 @@ void eliminar_registro(RegistroProduccion registros[], int *total) {
 void reporte_menor_desperdicio(const RegistroProduccion registros[], int total) {
     char centro[MAX_CENTRO];
     printf("\nCentro de costo a evaluar: ");
-    fgets(centro, MAX_CENTRO, stdin);
-    centro[strcspn(centro, "\n")] = 0;
+    scanf("%14s", centro);
+    while(getchar() != '\n');
 
     float desp[4] = {0.0f, 0.0f, 0.0f, 0.0f}; 
     int conteo[4] = {0, 0, 0, 0};
