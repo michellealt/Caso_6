@@ -30,8 +30,8 @@ int main() {
             case 4: actualizar_registro(registros, total_registros); break;
             case 5: eliminar_registro(registros, &total_registros); break;
             case 6: reporte_menor_desperdicio(registros, total_registros); break;
-            case 7: guardar_datos(registros, total_registros); printf("¡Cambios guardados con éxito!\n"); break;
-            case 8: guardar_datos(registros, total_registros); printf("Guardado automático completo. ¡Adiós!\n"); break;
+            case 7: guardar_datos(registros, total_registros); printf("¡Cambios guardados con exito!\n"); break;
+            case 8: guardar_datos(registros, total_registros); printf("Guardado automático completo. ¡Adios!\n"); break;
         }
     } while (opcion != 8);
 

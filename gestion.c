@@ -4,14 +4,14 @@
 
 void registrar_turno(RegistroProduccion registros[], int *total) {
     if (*total >= MAX_REGISTROS) {
-        printf("Error: Capacidad máxima de memoria alcanzada.\n");
+        printf("Error: Capacidad maxima de memoria alcanzada.\n");
         return;
     }
 
     RegistroProduccion nuevo;
     printf("\n--- REGISTRAR DATOS DE TURNO ---\n");
     
-    printf("Código de registro (1-15 caracteres): ");
+    printf("Codigo de registro (1-15 caracteres): ");
     fgets(nuevo.codigo_registro, MAX_CODIGO, stdin);
     limpiar_entrada(nuevo.codigo_registro);
 
@@ -28,7 +28,7 @@ void registrar_turno(RegistroProduccion registros[], int *total) {
     while(getchar() != '\n');
 
     if (nuevo.turno < 1 || nuevo.turno > 3) {
-        printf("Error: Turno inválido.\n");
+        printf("Error: Turno invalido.\n");
         return;
     }
 
@@ -151,7 +151,7 @@ void eliminar_registro(RegistroProduccion registros[], int *total) {
     }
 
     char conf;
-    printf("¿Está seguro de eliminar el registro %s? (s/n): ", codigo);
+    printf("¿Esta seguro de eliminar el registro %s? (s/n): ", codigo);
     scanf(" %c", &conf);
     while(getchar() != '\n');
 
