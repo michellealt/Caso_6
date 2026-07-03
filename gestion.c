@@ -79,3 +79,7 @@ void listar_registros(const RegistroProduccion registros[], int total) {
     }
     printf("\n");
 }
+
+void limpiar_entrada(char *cadena) {
+    cadena[strcspn(cadena, "\n")] = 0;
+}
