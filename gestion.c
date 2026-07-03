@@ -115,3 +115,51 @@ void buscar_registro(const RegistroProduccion registros[], int total) {
         listar_registros(&registros[idx], 1);
     }
 }
+
+void actualizar_registro(RegistroProduccion registros[], int total) {
+    char codigo[MAX_CODIGO];
+    printf("\nIngrese el código del registro a actualizar: ");
+    fgets(codigo, MAX_CODIGO, stdin);
+    codigo[strcspn(codigo, "\n")] = 0;
+
+    int idx = buscar_por_codigo(registros, total, codigo);
+    if (idx == -1) {
+        printf("Registro no encontrado.\n");
+        return;
+    }
+
+    printf("Modificando registro %s (El código no puede cambiarse).\n", codigo);
+    printf("Nueva Materia Prima (kg): ");
+    scanf("%f", &registros[idx].materia_prima_kg);
+    printf("Nuevo Desperdicio (kg): ");
+    scanf("%f", &registros[idx].desperdicio_kg);
+    while(getchar() != '\n');
+    
+    printf("¡Registro actualizado en memoria!\n");
+}
+
+void eliminar_registro(RegistroProduccion registros[], int *total) {
+    char codigo[MAX_CODIGO];
+    printf("\nIngrese el código del registro a eliminar: ");
+    fgets(codigo, MAX_CODIGO, stdin);
+    codigo[strcspn(codigo, "\n")] = 0;
+
+    int idx = buscar_por_codigo(registros, *total, codigo);
+    if (idx == -1) {
+        printf("Registro no encontrado.\n");
+        return;
+    }
+
+    char conf;
+    printf("¿Está seguro de eliminar el registro %s? (s/n): ", codigo);
+    scanf(" %c", &conf);
+    while(getchar() != '\n');
+
+    if (conf == 's' || conf == 'S') {
+        for (int i = idx; i < (*total) - 1; i++) {
+            registros[i] = registros[i + 1];
+        }
+        (*total)--;
+        printf("Registro eliminado.\n");
+    }
+}
