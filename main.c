@@ -3,8 +3,6 @@
 #include "gestion.h"
 #include "archivo.h"
 
-//       gcc -o sistema_produccion main.c gestion.c archivo.c produccion.c
-//       ./sistema_produccion
 
 int main() {
     RegistroProduccion registros[MAX_REGISTROS];
