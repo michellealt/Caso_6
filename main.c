@@ -3,6 +3,9 @@
 #include "gestion.h"
 #include "archivo.h"
 
+//       gcc -o sistema_produccion main.c gestion.c archivo.c produccion.c
+//       ./sistema_produccion
+
 int main() {
     RegistroProduccion registros[MAX_REGISTROS];
     int total_registros = 0;
@@ -11,11 +14,11 @@ int main() {
     cargar_datos(registros, &total_registros); // Carga automática al arrancar
 
     do {
-        printf("\n--- CONTROL DE PRODUCCIÓN POR CENTROS ---\n");
+        printf("\nCONTROL DE PRODUCCION POR CENTROS\n");
         printf("1. Registrar turno\n2. Listar registros\n3. Buscar registro\n");
         printf("4. Actualizar registro\n5. Eliminar registro\n6. Reporte eficiencia\n");
         printf("7. Guardar cambios\n8. Salir (Guardado automático)\n");
-        printf("Seleccione una opción: ");
+        printf("Seleccione una opcion: ");
         
         if (scanf("%d", &opcion) != 1) {
             while(getchar() != '\n');
