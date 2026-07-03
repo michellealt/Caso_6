@@ -11,55 +11,53 @@ void registrar_turno(RegistroProduccion registros[], int *total) {
     RegistroProduccion nuevo;
     printf("\n--- REGISTRAR DATOS DE TURNO ---\n");
     
+    // 1. CÓDIGO
     printf("Código de registro (1-15 caracteres): ");
     fgets(nuevo.codigo_registro, MAX_CODIGO, stdin);
     limpiar_entrada(nuevo.codigo_registro);
 
+    // 2. FECHA
     printf("Fecha (DD/MM/AAAA): ");
     fgets(nuevo.fecha, MAX_FECHA, stdin);
     limpiar_entrada(nuevo.fecha);
 
+    // 3. CENTRO DE COSTO
     printf("Centro de costo (ej. M-101): ");
     fgets(nuevo.centro_costo, MAX_CENTRO, stdin);
     limpiar_entrada(nuevo.centro_costo);
 
+    // 4. TURNO
     printf("Turno (1, 2 o 3): ");
-    scanf("%d", &nuevo.turno);
-    while(getchar() != '\n'); // Limpia el buffer después del número
+    if (scanf("%d", &nuevo.turno) != 1) {
+        printf("Error: Entrada inválida.\n");
+        while(getchar() != '\n');
+        return;
+    }
+    while(getchar() != '\n'); 
 
     if (nuevo.turno < 1 || nuevo.turno > 3) {
         printf("Error: Turno inválido.\n");
         return;
     }
 
+    // 5. MATERIA PRIMA Y DESPERDICIO
     printf("Materia prima (kg): ");
-    scanf("%f", &nuevo.materia_prima_kg);
+    if (scanf("%f", &nuevo.materia_prima_kg) != 1) { while(getchar() != '\n'); return; }
     printf("Desperdicio (kg): ");
-    scanf("%f", &nuevo.desperdicio_kg);
-    while(getchar() != '\n');
-
-    if (nuevo.turno < 1 || nuevo.turno > 3) {
-        printf("Error: Turno invalido.\n");
-        return;
-    }
-
-    printf("Materia prima (kg): ");
-    scanf("%f", &nuevo.materia_prima_kg);
-    printf("Desperdicio (kg): ");
-    scanf("%f", &nuevo.desperdicio_kg);
+    if (scanf("%f", &nuevo.desperdicio_kg) != 1) { while(getchar() != '\n'); return; }
+    while(getchar() != '\n'); 
     
-    // Validación de rangos obligatorios
     if (nuevo.materia_prima_kg < 0 || nuevo.desperdicio_kg < 0 || nuevo.desperdicio_kg > nuevo.materia_prima_kg) {
         printf("Error: Valores de materia prima o desperdicio fuera de rango.\n");
-        while(getchar() != '\n');
         return;
     }
 
+    // 6. TIEMPO Y UNIDADES
     printf("Tiempo (minutos): ");
-    scanf("%d", &nuevo.tiempo_min);
+    if (scanf("%d", &nuevo.tiempo_min) != 1) { while(getchar() != '\n'); return; }
     printf("Unidades producidas: ");
-    scanf("%d", &nuevo.unidades_producidas);
-    while(getchar() != '\n');
+    if (scanf("%d", &nuevo.unidades_producidas) != 1) { while(getchar() != '\n'); return; }
+    while(getchar() != '\n'); 
 
     if (nuevo.tiempo_min < 0 || nuevo.unidades_producidas < 0) {
         printf("Error: Tiempo o unidades no pueden ser negativos.\n");
@@ -77,23 +75,20 @@ void listar_registros(const RegistroProduccion registros[], int total) {
         return;
     }
 
-    printf("\n-\n");
+    printf("\n=========================================================================================\n");
     printf("%-7s | %-10s | %-10s | %-5s | %-10s | %-10s | %-8s\n", 
            "COD", "FECHA", "CENTRO", "TURNO", "MAT.PRIM", "DESPERD.", "REND(%)");
-    printf("\n");
+    printf("=========================================================================================\n");
     
     for (int i = 0; i < total; i++) {
         float rend = calcular_rendimiento(registros[i].materia_prima_kg, registros[i].desperdicio_kg);
-        printf("%-7s | %-10s | %-10s | %-5d | %-10.1f | %-10.1f | %-7.1f%%\n",
-       registros[i].codigo_registro, registros[i].fecha, registros[i].centro_costo,
-       registros[i].turno, registros[i].materia_prima_kg, registros[i].desperdicio_kg, rend);
+        printf("%-7s | %-10s | %-10s | %-5d | %-10.1f | %-10.1f | %-6.1f%%\n",
+               registros[i].codigo_registro, registros[i].fecha, registros[i].centro_costo,
+               registros[i].turno, registros[i].materia_prima_kg, registros[i].desperdicio_kg, rend);
     }
-    printf("\n");
+    printf("=========================================================================================\n");
 }
 
-void limpiar_entrada(char *cadena) {
-    cadena[strcspn(cadena, "\n")] = 0;
-}
 int buscar_por_codigo(const RegistroProduccion registros[], int total, const char *codigo) {
     for (int i = 0; i < total; i++) {
         if (strcmp(registros[i].codigo_registro, codigo) == 0) return i;
@@ -162,7 +157,7 @@ void eliminar_registro(RegistroProduccion registros[], int *total) {
     }
 
     char conf;
-    printf("¿Esta seguro de eliminar el registro %s? (s/n): ", codigo);
+    printf("¿Está seguro de eliminar el registro %s? (s/n): ", codigo);
     scanf(" %c", &conf);
     while(getchar() != '\n');
 
@@ -174,6 +169,7 @@ void eliminar_registro(RegistroProduccion registros[], int *total) {
         printf("Registro eliminado.\n");
     }
 }
+
 void reporte_menor_desperdicio(const RegistroProduccion registros[], int total) {
     char centro[MAX_CENTRO];
     printf("\nCentro de costo a evaluar: ");
@@ -205,4 +201,8 @@ void reporte_menor_desperdicio(const RegistroProduccion registros[], int total) 
     } else {
         printf("No hay datos suficientes de este centro.\n");
     }
+}
+
+void limpiar_entrada(char *cadena) {
+    cadena[strcspn(cadena, "\n")] = 0;
 }
