@@ -163,3 +163,35 @@ void eliminar_registro(RegistroProduccion registros[], int *total) {
         printf("Registro eliminado.\n");
     }
 }
+void reporte_menor_desperdicio(const RegistroProduccion registros[], int total) {
+    char centro[MAX_CENTRO];
+    printf("\nCentro de costo a evaluar: ");
+    fgets(centro, MAX_CENTRO, stdin);
+    centro[strcspn(centro, "\n")] = 0;
+
+    float desp[4] = {0.0f, 0.0f, 0.0f, 0.0f}; 
+    int conteo[4] = {0, 0, 0, 0};
+
+    for (int i = 0; i < total; i++) {
+        if (strcmp(registros[i].centro_costo, centro) == 0) {
+            desp[registros[i].turno] += registros[i].desperdicio_kg;
+            conteo[registros[i].turno]++;
+        }
+    }
+
+    int turno_menor = -1;
+    float min_desp = 1e9;
+
+    for(int t = 1; t <= 3; t++) {
+        if (conteo[t] > 0 && desp[t] < min_desp) {
+            min_desp = desp[t];
+            turno_menor = t;
+        }
+    }
+
+    if (turno_menor != -1) {
+        printf("\n>>> El turno con MENOR desperdicio en %s es el Turno %d (%.1f kg) <<<\n", centro, turno_menor, min_desp);
+    } else {
+        printf("No hay datos suficientes de este centro.\n");
+    }
+}

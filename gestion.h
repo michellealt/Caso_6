@@ -14,3 +14,4 @@ void buscar_registro(const RegistroProduccion registros[], int total);
 
 void actualizar_registro(RegistroProduccion registros[], int total);
 void eliminar_registro(RegistroProduccion registros[], int *total);
+void reporte_menor_desperdicio(const RegistroProduccion registros[], int total);
