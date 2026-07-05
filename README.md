@@ -8,6 +8,7 @@ Sistema modular en C para gestionar datos operativos por turnos y optimizar el u
 **Profesor: Eddy Mauricio Armas**
 
 **Semestre: Segundo**
+
 **Progreso: 3**
 
 ###  Compilación
