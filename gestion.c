@@ -16,9 +16,9 @@ void registrar_turno(RegistroProduccion registros[], int *total) {
     scanf("%15s", nuevo.codigo_registro);
     while(getchar() != '\n'); // Limpieza profunda del buffer
 
-    // [VALIDACIÓN CASO DE PRUEBA 2]: Validar si el código ya existe
+    // Validar si el código ya existe
     if (buscar_por_codigo(registros, *total, nuevo.codigo_registro) != -1) {
-        printf("Error: Código ya existente (%s) con datos nuevos. Registro rechazado.\n", nuevo.codigo_registro);
+        printf("Error: registro duplicado. El codigo_registro %s ya existe.\n", nuevo.codigo_registro);
         return;
     }
 
@@ -46,9 +46,9 @@ void registrar_turno(RegistroProduccion registros[], int *total) {
         return;
     }
 
-    // [VALIDACIÓN CASO DE PRUEBA 3]: Validar duplicidad de (fecha, centro_costo, turno)
+    //  Validar duplicidad de (fecha, centro_costo, turno)
     if (validar_duplicado_triada(registros, *total, nuevo.fecha, nuevo.centro_costo, nuevo.turno) != -1) {
-        printf("Error: El sistema deberá rechazar el registro por duplicidad de (fecha, centro_costo, turno).\n");
+        printf("Error: registro duplicado. Ya existe un registro con esa fecha, centro de costo y turno.\n");
         return;
     }
 
@@ -59,14 +59,13 @@ void registrar_turno(RegistroProduccion registros[], int *total) {
     if (scanf("%f", &nuevo.desperdicio_kg) != 1) { while(getchar() != '\n'); return; }
     while(getchar() != '\n'); 
     
-    // [VALIDACIÓN CASO DE PRUEBA 4 MODIFICADA]: El desperdicio NO puede ser mayor a la materia prima
+    // El desperdicio NO puede ser mayor a la materia prima
     if (nuevo.desperdicio_kg > nuevo.materia_prima_kg) {
-        printf("Error: No puedes estar desperdiciando %.1f kg de material si la materia prima total es de solo %.1f kg.\n", 
-               nuevo.desperdicio_kg, nuevo.materia_prima_kg);
+        printf("Error: valores fuera de rango.\n");
         return;
     }
     if (nuevo.materia_prima_kg < 0 || nuevo.desperdicio_kg < 0) {
-        printf("Error: Valores fuera de rango. Las masas no pueden ser negativas.\n");
+        printf("Error: valores fuera de rango.\n");
         return;
     }
 
@@ -85,7 +84,7 @@ void registrar_turno(RegistroProduccion registros[], int *total) {
     // Guardar en memoria si pasó todos los filtros
     registros[*total] = nuevo;
     (*total)++;
-    printf("Registro almacenado en memoria; mensaje de éxito.\n"); // Mensaje exacto caso de prueba 1
+    printf("Registro almacenado en memoria; mensaje de éxito.\n"); 
 }
 
 void listar_registros(const RegistroProduccion registros[], int total) {
@@ -134,10 +133,10 @@ void buscar_registro(const RegistroProduccion registros[], int total) {
 
     int idx = buscar_por_codigo(registros, total, codigo);
     if (idx == -1) {
-        printf("Error: registro no encontrado.\n"); // Mensaje exacto caso de prueba 8
+        printf("Error: registro no encontrado.\n"); 
     } else {
         printf("\nRegistro encontrado:\n");
-        listar_registros(&registros[idx], 1); // Cumple caso de prueba 7
+        listar_registros(&registros[idx], 1); 
     }
 }
 
@@ -160,7 +159,7 @@ void actualizar_registro(RegistroProduccion registros[], int total) {
     scanf("%f", &registros[idx].desperdicio_kg);
     while(getchar() != '\n');
     
-    printf("El registro se actualiza en memoria conservando el codigo_registro.\n"); // Mensaje exacto caso de prueba 9
+    printf("El registro se actualiza en memoria conservando el codigo_registro.\n"); 
 }
 
 void eliminar_registro(RegistroProduccion registros[], int *total) {
@@ -185,7 +184,7 @@ void eliminar_registro(RegistroProduccion registros[], int *total) {
             registros[i] = registros[i + 1];
         }
         (*total)--;
-        printf("El registro se elimina y el listado se reordena.\n"); // Mensaje exacto caso de prueba 10
+        printf("El registro se elimina y el listado se reordena.\n"); 
     }
 }
 
@@ -216,7 +215,7 @@ void reporte_menor_desperdicio(const RegistroProduccion registros[], int total) 
     }
 
     if (turno_menor != -1) {
-        printf("\n>>> Se indica el turno con menor desperdicio acumulado para ese centro: Turno %d (%.1f kg) <<<\n", turno_menor, min_desp); // Mensaje exacto caso de prueba 11
+        printf("\n>>> Se indica el turno con menor desperdicio acumulado para ese centro: Turno %d (%.1f kg) <<<\n", turno_menor, min_desp); 
     } else {
         printf("No hay datos suficientes de este centro.\n");
     }
